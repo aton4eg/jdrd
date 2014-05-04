@@ -1,44 +1,29 @@
 package jdrd.util;
 
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.objectweb.asm.util.ASMifier;
 
 public abstract class JDRDUtil {
 
     private static HashMap<?, ?> hasher = new HashMap<>();
     private static int hashSeed = UUID.randomUUID().hashCode();
-    //   private static int hash(Object k) {
-//        int h = 0;
-//        if (k instanceof String) {
-//            return sun.misc.Hashing.stringHash32((String) k);
-//        }
-//        h = hashSeed;
-//
-//        h ^= k.hashCode();
-//        h ^= (h >>> 20) ^ (h >>> 12);
-//        return h ^ (h >>> 7) ^ (h >>> 4);
-//    }
 
-    public static int hash(Object object) {
-        try {
-            if (object == null) {
-                return 0;
+    public static long getIdentity(Object object) {
+        return System.identityHashCode(object);
+    }
+
+    public static boolean in(Object objectToControl, Object... values) {
+        if (objectToControl != null && values != null) {
+            for (Object value : values) {
+                if (objectToControl.equals(value)) {
+                    return true;
+                }
             }
-            Method method = hasher.getClass().getDeclaredMethod("hash", Object.class);
-            if (method != null) {
-                method.setAccessible(true);
-                return (int) method.invoke(hasher, object);
-            }
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(JDRDUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return false;
     }
 
     public static long getCurrentThreadId() {
@@ -55,11 +40,13 @@ public abstract class JDRDUtil {
     }
 
     public static void main(String... args) {
-        int i = 256;
-        Integer a = 256;
-        Integer b = new Integer("5");
-        Integer c = new Integer(5);
-        Integer d = i;
+        String a = "";
+        String b = new String("");
+        String c = "";
+        String d = new String("");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(a, 1);
+        map.put(b, 2);
         System.out.println(System.identityHashCode(a));
         System.out.println(System.identityHashCode(b));
         System.out.println(System.identityHashCode(c));
