@@ -12,6 +12,7 @@ public class JDRDMethodAdapter extends MethodVisitor {
     private final String ownerName;
     private final String methodName;
     private int lastLineNumber;
+    private int additionalStackSize = 0;
     private boolean isStatic;
     private boolean isSynchronized;
     private int lastALOADIndex;
@@ -34,7 +35,7 @@ public class JDRDMethodAdapter extends MethodVisitor {
         mv.visitCode();
         if (this.isSynchronized) {
             if (this.isStatic) {
-                mv.visitLdcInsn(ownerName.replaceAll("/", "."));
+                mv.visitLdcInsn(this.ownerName.replaceAll("/", "."));
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getType(JDRD.class).getInternalName(), "lockAcquired", "(Ljava/lang/String;)V", false);
             } else {
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -51,12 +52,28 @@ public class JDRDMethodAdapter extends MethodVisitor {
             mv.visitLdcInsn(this.methodName); // method name
             mv.visitLdcInsn(this.lastLineNumber); // line number
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getType(JDRD.class).getInternalName(), "fieldIsBeingRead", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;I)V", false);
+            this.additionalStackSize = 4;
         } else if (opcode == Opcodes.PUTFIELD) {
             mv.visitVarInsn(Opcodes.ALOAD, 0);// owner this
             mv.visitLdcInsn(name); // field name
             mv.visitLdcInsn(this.methodName); // method name
             mv.visitLdcInsn(this.lastLineNumber); // line number
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getType(JDRD.class).getInternalName(), "fieldIsBeingWritten", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;I)V", false);
+            this.additionalStackSize = 4;
+        } else if (opcode == Opcodes.GETSTATIC) {
+            mv.visitLdcInsn(this.ownerName.replaceAll("/", ".")); // owner name
+            mv.visitLdcInsn(name); // field name
+            mv.visitLdcInsn(this.methodName); // method name
+            mv.visitLdcInsn(this.lastLineNumber); // line number
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getType(JDRD.class).getInternalName(), "fieldIsBeingRead", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", false);
+            this.additionalStackSize = 4;
+        } else if (opcode == Opcodes.PUTSTATIC) {
+            mv.visitLdcInsn(this.ownerName.replaceAll("/", ".")); // owner name
+            mv.visitLdcInsn(name); // field name
+            mv.visitLdcInsn(this.methodName); // method name
+            mv.visitLdcInsn(this.lastLineNumber); // line number
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getType(JDRD.class).getInternalName(), "fieldIsBeingWritten", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", false);
+            this.additionalStackSize = 4;
         }
         mv.visitFieldInsn(opcode, owner, name, desc);
     }
@@ -89,7 +106,7 @@ public class JDRDMethodAdapter extends MethodVisitor {
 
     @Override
     public void visitMaxs(int maxStack, int maxLocals) {
-        mv.visitMaxs(maxStack + 4, maxLocals);
+        mv.visitMaxs(maxStack + this.additionalStackSize, maxLocals);
     }
 
     @Override

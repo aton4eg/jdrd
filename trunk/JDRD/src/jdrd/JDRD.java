@@ -9,6 +9,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jdrd.util.JDRDUtil;
 
+/**
+ * Task 1 : instrument lock acquires and releases : DONE<br/>
+ * Task 2 : instrument load and stores : DONE<br/>
+ * Task 3 : identify objects : DONE <br/>
+ * Task 4 : acquire all possible locks <br/>
+ * Task 5 : implement algorithm <br/>
+ * Task 6 : acquire locks held <br/>
+ *
+ * @author Canay ÖZEL <canay.ozel@gmail.com>
+ */
 public class JDRD {
 
     private static final Map<Long, Set<Object>> THREAD_LOCK_SET_MAP;
@@ -39,20 +49,38 @@ public class JDRD {
         if ((lockSet = THREAD_LOCK_SET_MAP.get(Long.MAX_VALUE)) == null) {
             THREAD_LOCK_SET_MAP.put(tid, lockSet = Collections.synchronizedSet(new HashSet<>()));
         }
-
+        //TODO: implement
         System.out.println("JDRD: Lock acquired: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
     }
 
     public static synchronized void lockReleased(Object lock) {
-        // TODO: counter 0
+        //TODO: implement (remember counter 0)
         System.out.println("JDRD: Lock released: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
     }
 
+    public static synchronized void fieldIsBeingRead(String className, String field, String methodName, int line) {
+        try {
+            fieldIsBeingRead(Class.forName(className), field, methodName, line);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static synchronized void fieldIsBeingWritten(String className, String field, String methodName, int line) {
+        try {
+            fieldIsBeingWritten(Class.forName(className), field, methodName, line);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
+        //TODO: implement
         System.out.println("JDRD: Field " + field + " is being read in " + owner.getClass().getName() + "." + methodName + " at line " + line);
     }
 
     public static synchronized void fieldIsBeingWritten(Object owner, String field, String methodName, int line) {
+        //TODO: implement
         System.out.println("JDRD: Field " + field + " is being written in " + owner.getClass().getName() + ". " + methodName + " at line " + line);
     }
 }
