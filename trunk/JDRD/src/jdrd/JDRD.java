@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import jdrd.util.JDRDUtil;
 
 /**
- * Task 1 : instrument lock acquires and releases : DONE<br/>
- * Task 2 : instrument load and stores : DONE<br/>
+ * Task 1 : instrument all acquire and release operations on locks : DONE<br/>
+ * Task 2 : instrument load and stores of necessary variables: DONE<br/>
  * Task 3 : identify objects : DONE <br/>
  * Task 4 : get all possible locks  <br/>
  * Task 5 : implement algorithm <br/>
