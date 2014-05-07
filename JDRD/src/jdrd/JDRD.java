@@ -12,10 +12,9 @@ import jdrd.util.JDRDUtil;
 /**
  * Task 1 : instrument all acquire and release operations on locks : DONE<br/>
  * Task 2 : instrument load and stores of necessary variables: DONE<br/>
- * Task 3 : identify objects : DONE <br/>
- * Task 4 : get all possible locks  <br/>
- * Task 5 : implement algorithm <br/>
- * Task 6 : implement interface <br/>
+ * Task 3 : get all possible locks  <br/>
+ * Task 4 : implement algorithm <br/>
+ * Task 5 : implement user interface <br/>
  * Task 6 : implement java agent <br/>
  *
  * @author Canay ÖZEL <canay.ozel@gmail.com>
