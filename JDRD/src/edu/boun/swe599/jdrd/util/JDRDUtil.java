@@ -1,15 +1,19 @@
+/*
+ *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ */
 package edu.boun.swe599.jdrd.util;
 
 import java.lang.management.ManagementFactory;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
+import java.util.WeakHashMap;
 import org.objectweb.asm.util.ASMifier;
 
+/**
+ *
+ * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @version 1.0 created on May 11, 2014 9:04:35 PM
+ */
 public abstract class JDRDUtil {
-
-    private static HashMap<?, ?> hasher = new HashMap<>();
-    private static int hashSeed = UUID.randomUUID().hashCode();
 
     public static long getIdentity(Object object) {
         return System.identityHashCode(object);
@@ -37,19 +41,5 @@ public abstract class JDRDUtil {
 
     public static <T> void printASMCode(Class<T> clazz) throws Exception {
         ASMifier.main(new String[]{clazz.getName()});
-    }
-
-    public static void main(String... args) {
-        String a = "";
-        String b = new String("");
-        String c = "";
-        String d = new String("");
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(a, 1);
-        map.put(b, 2);
-        System.out.println(System.identityHashCode(a));
-        System.out.println(System.identityHashCode(b));
-        System.out.println(System.identityHashCode(c));
-        System.out.println(System.identityHashCode(d));
     }
 }
