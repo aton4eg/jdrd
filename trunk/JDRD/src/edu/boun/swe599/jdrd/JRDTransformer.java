@@ -1,3 +1,6 @@
+/*
+ *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ */
 package edu.boun.swe599.jdrd;
 
 import java.io.PrintWriter;
@@ -13,6 +16,11 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.TraceClassVisitor;
 
+/**
+ *
+ * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @version 1.0 created on May 11, 2014 9:04:35 PM
+ */
 public final class JRDTransformer implements ClassFileTransformer {
 
     private static JRDTransformer transformer;
@@ -29,13 +37,15 @@ public final class JRDTransformer implements ClassFileTransformer {
     public byte[] transform(ClassLoader loader, String className, Class classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         byte[] byteCode = classfileBuffer;
         ClassVisitor classVisitor;
-        if (className.startsWith("edu/boun/swe599/jdrd/test/S")) {
+        if (className.startsWith("edu/boun/swe599/jdrd/test/")) {
             try {
                 ClassReader classReader = new ClassReader(byteCode);// Class reader to parse the class
                 ClassWriter classWriter = new ClassWriter(classReader, 0);// class reader is passed for performence 
 
                 classVisitor = new CheckClassAdapter(classWriter); // checks the correctness of the byte code
-                classVisitor = new TraceClassVisitor(classVisitor, new PrintWriter(System.out)); // prints class
+                if (JDRD.DEBUG) {
+                    classVisitor = new TraceClassVisitor(classVisitor, new PrintWriter(System.out)); // prints class
+                }
                 classVisitor = new JDRDAdapter(classVisitor); // adds time to the class
 
                 classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
