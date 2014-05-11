@@ -1,10 +1,6 @@
 package jdrd;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jdrd.util.JDRDUtil;
@@ -12,7 +8,7 @@ import jdrd.util.JDRDUtil;
 /**
  * Task 1 : instrument all acquire and release operations on locks : DONE<br/>
  * Task 2 : instrument load and stores of necessary variables: DONE<br/>
- * Task 3 : get all possible locks  <br/>
+ * Task 3 : get all possible locks: DONE<br/>
  * Task 4 : implement algorithm <br/>
  * Task 5 : implement user interface <br/>
  * Task 6 : implement java agent <br/>
@@ -21,10 +17,14 @@ import jdrd.util.JDRDUtil;
  */
 public class JDRD {
 
-    private static final Map<Long, Set<Object>> THREAD_LOCK_SET_MAP;
+    private static final boolean DEBUG = true;
+
+    private static final WeakHashMap<Object, Boolean> ALL_POSSIBLE_LOCKS;
+    private static final WeakHashMap<Long, WeakHashMap<Object, Integer>> THREAD_LOCKS;
 
     static {
-        THREAD_LOCK_SET_MAP = new HashMap<>();
+        THREAD_LOCKS = new WeakHashMap<>();
+        ALL_POSSIBLE_LOCKS = new WeakHashMap<>();
     }
 
     public static synchronized void lockAcquired(String className) {
@@ -44,18 +44,33 @@ public class JDRD {
     }
 
     public static synchronized void lockAcquired(Object lock) {
+        ALL_POSSIBLE_LOCKS.put(lock, Boolean.TRUE);
         long tid = JDRDUtil.getCurrentThreadId();
-        Set<Object> lockSet = null;
-        if ((lockSet = THREAD_LOCK_SET_MAP.get(Long.MAX_VALUE)) == null) {
-            THREAD_LOCK_SET_MAP.put(tid, lockSet = Collections.synchronizedSet(new HashSet<>()));
+        WeakHashMap<Object, Integer> lockSet;
+        if ((lockSet = THREAD_LOCKS.get(tid)) == null) {
+            THREAD_LOCKS.put(tid, lockSet = new WeakHashMap<>());
         }
-        //TODO: implement
-        System.out.println("JDRD: Lock acquired: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
+        Integer count = lockSet.get(lock);
+        count = count == null ? 1 : count + 1;
+        lockSet.put(lock, count);
+        if (DEBUG) {
+            printMessage("JDRD: Lock acquired: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
+        }
     }
 
     public static synchronized void lockReleased(Object lock) {
-        //TODO: implement (remember counter 0)
-        System.out.println("JDRD: Lock released: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
+        long tid = JDRDUtil.getCurrentThreadId();
+        WeakHashMap<Object, Integer> lockSet;
+        if ((lockSet = THREAD_LOCKS.get(tid)) != null) {
+            Integer count = lockSet.get(lock);
+            count = count == null ? 1 : count;
+            if ((count -= 1) == 0) {
+                lockSet.remove(lock);
+            } else {
+                lockSet.put(lock, count);
+            }
+        }
+        printMessage("JDRD: Lock released: " + lock + " Thread.holdsLock(lock): " + Thread.holdsLock(lock));
     }
 
     public static synchronized void fieldIsBeingRead(String className, String field, String methodName, int line) {
@@ -76,11 +91,17 @@ public class JDRD {
 
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
         //TODO: implement
-        System.out.println("JDRD: Field " + field + " is being read in " + owner.getClass().getName() + "." + methodName + " at line " + line);
+        printMessage("JDRD: Field " + field + " is being read in " + owner.getClass().getName() + "." + methodName + " at line " + line);
     }
 
     public static synchronized void fieldIsBeingWritten(Object owner, String field, String methodName, int line) {
         //TODO: implement
-        System.out.println("JDRD: Field " + field + " is being written in " + owner.getClass().getName() + ". " + methodName + " at line " + line);
+        printMessage("JDRD: Field " + field + " is being written in " + owner.getClass().getName() + ". " + methodName + " at line " + line);
+    }
+
+    private static void printMessage(String message) {
+        if (DEBUG) {
+            System.out.println(message);
+        }
     }
 }

@@ -7,10 +7,10 @@ public class SynchronizationTest {
     private final Object lock = new Object();
 
     public SynchronizationTest() {
-        super();
-        synchronized (this) {
-            System.out.println("This is a synchronized initialization.");
-        }
+//        super();
+//        synchronized (this) {
+//            System.out.println("This is a synchronized initialization.");
+//        }
     }
 
     public synchronized void synchronizedMethod() {
