@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Premain-Class: jdrd.JDRDPreMain
+Premain-Class: edu.boun.swe599.jdrd.JDRDPreMain
