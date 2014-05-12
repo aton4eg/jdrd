@@ -5,6 +5,7 @@ package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.test.LoadStoreTest;
 import edu.boun.swe599.jdrd.test.SynchronizationTest;
+import edu.boun.swe599.jdrd.test.TestThread;
 
 /**
  *
@@ -47,12 +48,8 @@ public class Main {
 //    }
 
     public static void main(String[] args) throws Exception {
-        LoadStoreTest test = new LoadStoreTest();
-        test.primitiveFieldTest(3);
-        test.objectFieldTest(new Object());
-        SynchronizationTest synchronizationTest = new SynchronizationTest();
-        synchronizationTest.statementSynchronizedMethod();
-        synchronizationTest.synchronizedMethod();
-        SynchronizationTest.synchronizedStaticMethod();
+        LoadStoreTest data = new LoadStoreTest();
+        new Thread(new TestThread(data)).start();
+        new Thread(new TestThread(data)).start();
     }
 }
