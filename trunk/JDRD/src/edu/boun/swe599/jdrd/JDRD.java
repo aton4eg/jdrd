@@ -3,12 +3,12 @@ package edu.boun.swe599.jdrd;
  *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
  */
 
-import edu.boun.swe599.jdrd.variable.FieldStateData;
+import edu.boun.swe599.jdrd.data.FieldStateData;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
-import edu.boun.swe599.jdrd.variable.FieldState;
+import edu.boun.swe599.jdrd.data.FieldState;
 import java.util.HashMap;
 import java.util.Map;
 
