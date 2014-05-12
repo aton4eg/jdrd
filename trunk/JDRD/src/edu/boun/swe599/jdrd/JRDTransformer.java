@@ -23,6 +23,7 @@ import org.objectweb.asm.util.TraceClassVisitor;
  */
 public final class JRDTransformer implements ClassFileTransformer {
 
+    private static final String CLASSES_TO_BE_TRACED = ".";
     private static JRDTransformer transformer;
 
     public static JRDTransformer getInstance() {
@@ -43,7 +44,7 @@ public final class JRDTransformer implements ClassFileTransformer {
                 ClassWriter classWriter = new ClassWriter(classReader, 0);// class reader is passed for performence 
 
                 classVisitor = new CheckClassAdapter(classWriter); // checks the correctness of the byte code
-                if (JDRD.DEBUG) {
+                if (className.startsWith(CLASSES_TO_BE_TRACED)) {
                     classVisitor = new TraceClassVisitor(classVisitor, new PrintWriter(System.out)); // prints class
                 }
                 classVisitor = new JDRDAdapter(classVisitor); // adds time to the class

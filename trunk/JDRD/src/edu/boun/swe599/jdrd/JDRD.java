@@ -97,16 +97,16 @@ public class JDRD {
     }
 
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
-        printMessage("JDRD: Field " + field + " is being read in " + owner.getClass().getName() + "." + methodName + " at line " + line);
+        printMessage("JDRD: Field " + field + " is being read by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
         if (checkRaceCondition(owner, field, false)) {
-            // TODO issue warning
+            System.err.println("JDRD: Race detected in " + owner.getClass().getName() + "." + methodName + " on field " + field + " at line:" + line);
         }
     }
 
     public static synchronized void fieldIsBeingWritten(Object owner, String field, String methodName, int line) {
-        printMessage("JDRD: Field " + field + " is being written in " + owner.getClass().getName() + ". " + methodName + " at line " + line);
+        printMessage("JDRD: Field " + field + " is being written by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
         if (checkRaceCondition(owner, field, true)) {
-            // TODO issue warning
+            System.err.println("JDRD: Race detected in " + owner.getClass().getName() + "." + methodName + " on field " + field + " at line:" + line);
         }
     }
 
@@ -120,19 +120,30 @@ public class JDRD {
         Map<String, FieldStateData> map;
         if ((map = DATA_STATES.get(owner)) == null) {
             map = new HashMap<>();
+            DATA_STATES.put(owner, map);
         }
         FieldStateData fieldStateData;
         if ((fieldStateData = map.get(field)) == null) {
             fieldStateData = new FieldStateData();
-            map.put(field, new FieldStateData());
+            map.put(field, fieldStateData);
         }
         return fieldStateData;
     }
 
-    private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
+    private static WeakHashMap<Object, ?> getLocksHeld() {
         long tid = JDRDUtil.getCurrentThreadId();
+        WeakHashMap<Object, Integer> locksHeld;
+        if ((locksHeld = THREAD_LOCKS.get(tid)) == null) {
+            locksHeld = new WeakHashMap<>();
+            THREAD_LOCKS.put(tid, locksHeld);
+        }
+        return locksHeld;
+    }
+
+    private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
         FieldStateData fieldStateData = getFieldStateData(owner, field);
-        fieldStateData.signalAccess(THREAD_LOCKS.get(tid), isWrite);
+        fieldStateData.signalAccess(getLocksHeld(), isWrite);
         return fieldStateData.getState() == FieldState.SHARED_MODIFIED && fieldStateData.getLockSetSize() == 0;
     }
+
 }
