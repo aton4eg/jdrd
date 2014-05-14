@@ -34,6 +34,10 @@ public abstract class JDRDUtil {
         return Thread.currentThread().getId();
     }
 
+    public static String getCurrentThreadName() {
+        return Thread.currentThread().getName();
+    }
+
     public static long getCurrentProcessId() {
         String jvm = ManagementFactory.getRuntimeMXBean().getName();
         return Long.parseLong(jvm.substring(0, jvm.indexOf('@')));

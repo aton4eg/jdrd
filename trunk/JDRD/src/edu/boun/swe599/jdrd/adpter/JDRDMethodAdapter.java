@@ -3,8 +3,8 @@
  */
 package edu.boun.swe599.jdrd.adpter;
 
-import java.lang.reflect.Modifier;
 import edu.boun.swe599.jdrd.JDRD;
+import java.lang.reflect.Modifier;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;

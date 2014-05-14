@@ -45,7 +45,7 @@ public class FieldStateData {
         }
 
         if (JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED)) {
-            // initialize lockset
+            // initialize lockset refinement
             if (this.lockSet == null) {
                 this.lockSet = new WeakHashMap<>(locks).keySet();
             } else {
