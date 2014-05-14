@@ -25,6 +25,7 @@ public class JDRDLogger {
         } else {
             out = printStream;
         }
+        log("Logger has been successfully initialized.");
     }
 
     private static String getHeader() {
