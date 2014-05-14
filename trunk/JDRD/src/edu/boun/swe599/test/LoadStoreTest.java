@@ -10,24 +10,21 @@ package edu.boun.swe599.test;
  */
 public class LoadStoreTest {
 
-//    private int primitive = 5;//GETFIELD & PUTFIELD: may fall into race condition
-//    private final int finalPrimitive = 5; // LDC or xCONST: no race condition
+    private int primitive = 5;//GETFIELD & PUTFIELD: may fall into race condition
+    private final int finalPrimitive = 5; // LDC or xCONST: no race condition
     private Object object = new Object();//GETFIELD & PUTFIELD: may fall into race condition
+    private final Object finalObject = new Object();// GETFIELD: may fall into race condition if it is not immutable
+    public static int staticPrimitive = 5; // GETSTATIC & PUTSTATIC: may fall into race condition
+    public static final int staticFinalPrimitive = 5;//LDC or xCONST: no race condition
+    public static Object staticObject = new Object();// GETSTATIC & PUTSTATIC: may fall into race condition
+    public static final Object staticFinalObject = new Object();// GETSTATIC: may fall into race condition if it is not immutable
 
-//    public int primitiveFieldTest(int parameter) {
-//        int a = finalPrimitive;
-//        primitive = parameter;
-//        return primitive;
-//    }
-    //    private final Object finalObject = new Object();// GETFIELD: may fall into race condition if it is not immutable
-//    public static int staticPrimitive = 5; // GETSTATIC & PUTSTATIC: may fall into race condition
-//    public static final int staticFinalPrimitive = 5;//LDC or xCONST: no race condition
-//    public static Object staticObject = new Object();// GETSTATIC & PUTSTATIC: may fall into race condition
-//    public static final Object staticFinalObject = new Object();// GETSTATIC: may fall into race condition if it is not immutable
-//        int a = finalPrimitive;
-//        primitive = parameter;
-//        return primitive;
-//    }
+    public int primitiveFieldTest(int parameter) {
+        int a = finalPrimitive;
+        primitive = parameter;
+        return primitive;
+    }
+
     public Object getObject() {
         return object;
     }
@@ -36,16 +33,15 @@ public class LoadStoreTest {
         this.object = object;
     }
 
-//
-//    public int staticPrimitiveTest(int parameter) {
-//        int a = staticFinalPrimitive;
-//        staticPrimitive = parameter;
-//        return staticPrimitive;
-//    }
-//
-//    public Object staticObhectTest(Object parameter) {
-//        Object a = staticFinalObject;
-//        staticObject = parameter;
-//        return staticObject;
-//    }
+    public static int staticPrimitiveTest(int parameter) {
+        int a = staticFinalPrimitive;
+        staticPrimitive = parameter;
+        return staticPrimitive;
+    }
+
+    public static Object staticObjectTest(Object parameter) {
+        Object a = staticFinalObject;
+        staticObject = parameter;
+        return staticObject;
+    }
 }
