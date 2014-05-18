@@ -3,6 +3,7 @@
  */
 package edu.boun.swe599.jdrd.data;
 
+import edu.boun.swe599.jdrd.util.JDRDConfiguration;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,11 @@ public class FieldStateData {
     }
 
     public int getLockSetSize() {
-        return this.lockSet.size();
+        return this.lockSet != null ? this.lockSet.size() : -1;
+    }
+
+    public int getAccessorSetSize() {
+        return this.accessors != null ? this.accessors.size() : -1;
     }
 
     public FieldState getState() {
@@ -34,6 +39,7 @@ public class FieldStateData {
 
     public void signalAccess(WeakHashMap<Object, ?> locks, boolean isWrite) {
         this.accessors.add(JDRDUtil.getCurrentThreadId());
+
         if (this.accessors.size() == 1) {
             this.state = FieldState.EXCLUSIVE;
         } else if (this.accessors.size() > 1) {
@@ -44,7 +50,7 @@ public class FieldStateData {
             }
         }
 
-        if (JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED)) {
+        if (JDRDConfiguration.isFieldStateCheckEnabled() ? JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED) : true) {
             // initialize lockset refinement
             if (this.lockSet == null) {
                 this.lockSet = new WeakHashMap<>(locks).keySet();

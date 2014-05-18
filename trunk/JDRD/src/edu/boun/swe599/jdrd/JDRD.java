@@ -5,6 +5,7 @@ package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.data.FieldState;
 import edu.boun.swe599.jdrd.data.FieldStateData;
+import edu.boun.swe599.jdrd.util.JDRDConfiguration;
 import edu.boun.swe599.jdrd.util.JDRDLogger;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashMap;
@@ -132,7 +133,9 @@ public abstract class JDRD {
     private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
         FieldStateData fieldStateData = getFieldStateData(owner, field);
         fieldStateData.signalAccess(getLocksHeld(), isWrite);
-        return fieldStateData.getState() == FieldState.SHARED_MODIFIED && fieldStateData.getLockSetSize() == 0;
+        return JDRDConfiguration.isFieldStateCheckEnabled() && fieldStateData.getLockSetSize() == 0
+                ? fieldStateData.getState() == FieldState.SHARED_MODIFIED
+                : fieldStateData.getAccessorSetSize() > 1;
     }
 
 }
