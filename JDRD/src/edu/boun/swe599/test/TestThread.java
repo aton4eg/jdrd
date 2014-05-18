@@ -18,7 +18,6 @@ public class TestThread implements Runnable {
 
     @Override
     public void run() {
-        this.testData.setObject(new Object());
         synchronized (testData) {
             this.testData.setObject(new Object());
         }

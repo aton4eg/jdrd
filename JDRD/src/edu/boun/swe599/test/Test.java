@@ -12,8 +12,9 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         LoadStoreTest data = new LoadStoreTest();
-        new Thread(new TestThread(data)).start();
-        new Thread(new TestThread(data)).start();
+        Thread thread1 = new Thread(new TestThread(data));
+
+        thread1.start();
         data.getObject();
     }
 }
