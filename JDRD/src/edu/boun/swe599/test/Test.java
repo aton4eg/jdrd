@@ -15,6 +15,7 @@ public class Test {
         Thread thread1 = new Thread(new TestThread(data));
 
         thread1.start();
+        thread1.join();
         data.getObject();
     }
 }
