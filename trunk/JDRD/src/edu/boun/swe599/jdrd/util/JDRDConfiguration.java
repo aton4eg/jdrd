@@ -19,7 +19,7 @@ public class JDRDConfiguration {
 
     private static final String NAMES_OF_CLASSES_TO_TRANSFORM = "jdrd.classes.transform";
     private static final String LOG_PATH = "jdrd.log.file.path";
-
+    private static final String DEBUG = "jdrd.debug";
     private static final Properties JDRD_PROPERTIES = new Properties();
 
     static {
@@ -59,5 +59,10 @@ public class JDRDConfiguration {
             }
         }
         return nameSet;
+    }
+
+    public static boolean isDebugEnabled() {
+        String property = JDRD_PROPERTIES.getProperty(DEBUG);
+        return StringUtil.hasText(property) && Boolean.TRUE.toString().equalsIgnoreCase(property);
     }
 }

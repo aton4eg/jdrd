@@ -6,6 +6,7 @@ package edu.boun.swe599.jdrd;
 import edu.boun.swe599.jdrd.data.FieldState;
 import edu.boun.swe599.jdrd.data.FieldStateData;
 import edu.boun.swe599.jdrd.util.JDRDLogger;
+import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -91,12 +92,14 @@ public abstract class JDRD {
     }
 
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
+        JDRDLogger.log("Field " + field + " is being read by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
         if (checkRaceCondition(owner, field, false)) {
             JDRDLogger.log("RACE DETECTED in " + owner.getClass().getName() + "." + methodName + "'s read operation on field " + field + " at line:" + line);
         }
     }
 
     public static synchronized void fieldIsBeingWritten(Object owner, String field, String methodName, int line) {
+        JDRDLogger.log("Field " + field + " is being written by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
         if (checkRaceCondition(owner, field, true)) {
             JDRDLogger.log("RACE DETECTED in " + owner.getClass().getName() + "." + methodName + "'s write operation on field " + field + " at line:" + line);
         }
