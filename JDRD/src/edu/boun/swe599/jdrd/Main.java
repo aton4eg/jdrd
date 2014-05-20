@@ -4,6 +4,7 @@
 package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.adpter.JDRDAdapter;
+import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,12 +64,7 @@ public class Main {
                 byte[] bytes = new byte[(int) e.getSize()];
                 new DataInputStream(source.getInputStream(e)).readFully(bytes);
                 if (e.getName().endsWith(".class")) {
-                    ClassReader classReader = new ClassReader(bytes);
-                    ClassWriter classWriter = new ClassWriter(classReader, 0);
-                    ClassVisitor classVisitor = new CheckClassAdapter(classWriter);
-                    classVisitor = new JDRDAdapter(classVisitor);
-                    classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-                    bytes = classWriter.toByteArray();
+                    bytes = JDRDUtil.convertClassData(bytes);
                 }
                 e = new JarEntry(e.getName());
                 jarOutputStream.putNextEntry(e);
