@@ -3,7 +3,6 @@
  */
 package edu.boun.swe599.jdrd;
 
-import edu.boun.swe599.jdrd.adpter.JDRDAdapter;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import edu.boun.swe599.jdrd.util.StringUtil;
 import java.lang.instrument.ClassFileTransformer;
@@ -13,10 +12,6 @@ import java.security.ProtectionDomain;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.util.CheckClassAdapter;
 
 /**
  *
