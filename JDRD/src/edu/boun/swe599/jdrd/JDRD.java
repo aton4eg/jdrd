@@ -5,10 +5,9 @@ package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.data.FieldState;
 import edu.boun.swe599.jdrd.data.FieldStateData;
-import edu.boun.swe599.jdrd.util.JDRDConfiguration;
-import edu.boun.swe599.jdrd.util.JDRDLogger;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
@@ -27,7 +26,7 @@ import java.util.logging.Logger;
  */
 public abstract class JDRD {
 
-    private static final WeakHashMap<Object, Map<String, FieldStateData>> DATA_STATES;
+    private static final Map<Object, Map<String, FieldStateData>> DATA_STATES;
     private static final Map<Thread, WeakHashMap<Object, Integer>> THREAD_LOCKS;
 
     static {
@@ -127,6 +126,14 @@ public abstract class JDRD {
             locksHeld = new WeakHashMap<>();
             THREAD_LOCKS.put(currentThread, locksHeld);
         }
+
+        for (Iterator<Object> it = locksHeld.keySet().iterator(); it.hasNext();) {
+            Object object = it.next();
+            if (!Thread.holdsLock(object)) {
+                it.remove();
+            }
+        }
+
         return locksHeld;
     }
 

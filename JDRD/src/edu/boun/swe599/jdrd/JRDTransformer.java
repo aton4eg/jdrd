@@ -4,10 +4,10 @@
 package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.adpter.JDRDAdapter;
-import edu.boun.swe599.jdrd.util.JDRDConfiguration;
 import edu.boun.swe599.jdrd.util.StringUtil;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
+import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 import java.util.Set;
 import java.util.logging.Level;
@@ -26,12 +26,10 @@ final class JRDTransformer implements ClassFileTransformer {
 
     private static final Set<String> NAMES_OF_CLASSES_TO_BE_TRANSFORMED = JDRDConfiguration.getNamesOfClassesToTransform();
     private static JRDTransformer transformer;
+    private final Instrumentation instrumentation;
 
-    public static JRDTransformer getInstance() {
-        return transformer == null ? (transformer = new JRDTransformer()) : transformer;
-    }
-
-    private JRDTransformer() {
+    JRDTransformer(Instrumentation instrumentation) {
+        this.instrumentation = instrumentation;
     }
 
     @Override

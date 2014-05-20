@@ -1,8 +1,9 @@
 /*
  *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
  */
-package edu.boun.swe599.jdrd.util;
+package edu.boun.swe599.jdrd;
 
+import edu.boun.swe599.jdrd.util.StringUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;

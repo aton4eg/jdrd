@@ -3,8 +3,9 @@
  */
 package edu.boun.swe599.jdrd.data;
 
-import edu.boun.swe599.jdrd.util.JDRDConfiguration;
+import edu.boun.swe599.jdrd.JDRDConfiguration;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -53,7 +54,7 @@ public class FieldStateData {
         if (JDRDConfiguration.isFieldStateCheckEnabled() ? JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED) : true) {
             // initialize lockset refinement
             if (this.lockSet == null) {
-                this.lockSet = new WeakHashMap<>(locks).keySet();
+                this.lockSet = new HashMap<>(locks).keySet();
             } else {
                 this.lockSet.retainAll(locks.keySet());
             }
