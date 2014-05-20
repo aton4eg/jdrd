@@ -1,2 +1,4 @@
 Manifest-Version: 1.0
 Premain-Class: edu.boun.swe599.jdrd.JDRDPreMain
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true

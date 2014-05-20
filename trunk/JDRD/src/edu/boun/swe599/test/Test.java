@@ -10,12 +10,11 @@ package edu.boun.swe599.test;
  */
 public class Test {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         LoadStoreTest data = new LoadStoreTest();
         Thread thread1 = new Thread(new TestThread(data));
 
         thread1.start();
-        thread1.join();
         data.getObject();
     }
 }

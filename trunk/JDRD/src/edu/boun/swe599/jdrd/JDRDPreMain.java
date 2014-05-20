@@ -3,7 +3,6 @@
  */
 package edu.boun.swe599.jdrd;
 
-import edu.boun.swe599.jdrd.util.JDRDLogger;
 import java.lang.instrument.Instrumentation;
 
 /**
@@ -15,8 +14,9 @@ class JDRDPreMain {
 
     public static void premain(String agentArgument, Instrumentation instrumentation) {
         if (instrumentation != null) {
-            instrumentation.addTransformer(JRDTransformer.getInstance());
+            instrumentation.addTransformer(new JRDTransformer(instrumentation));
             JDRDLogger.log("JDRD Trasnformer has been successfully attached to the classloader.");
         }
     }
+
 }

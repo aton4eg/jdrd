@@ -1,8 +1,9 @@
 /*
  *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
  */
-package edu.boun.swe599.jdrd.util;
+package edu.boun.swe599.jdrd;
 
+import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
