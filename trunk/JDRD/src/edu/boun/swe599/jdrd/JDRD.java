@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Task 2 : instrument load and stores of necessary variables: DONE<br/>
  * Task 3 : get all possible locks: DONE<br/>
  * Task 4 : implement algorithm DONE <br/>
- * Task 5 : implement user interface <br/>
+ * Task 5 : implement user interface DONE<br/>
  * Task 6 : implement java agent DONE<br/>
  *
  * @author Canay ÖZEL <canay.ozel@gmail.com>
