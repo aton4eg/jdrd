@@ -4,6 +4,7 @@
 package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.adpter.JDRDAdapter;
+import edu.boun.swe599.jdrd.util.JDRDUtil;
 import edu.boun.swe599.jdrd.util.StringUtil;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -35,19 +36,9 @@ final class JRDTransformer implements ClassFileTransformer {
     @Override
     public byte[] transform(ClassLoader loader, String className, Class classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         byte[] byteCode = classfileBuffer;
-        ClassVisitor classVisitor;
         if (willBeTransformed(className)) {
             try {
-                ClassReader classReader = new ClassReader(byteCode);// Class reader to parse the class
-                ClassWriter classWriter = new ClassWriter(classReader, 0);// class reader is passed for performence 
-
-                classVisitor = new CheckClassAdapter(classWriter); // checks the correctness of the byte code
-//                classVisitor = new TraceClassVisitor(classVisitor, new PrintWriter(System.out)); // prints class
-                classVisitor = new JDRDAdapter(classVisitor); // adds time to the class
-
-                classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-                // Get the result
-                byteCode = classWriter.toByteArray();
+                byteCode = JDRDUtil.convertClassData(byteCode);
             } catch (Exception ex) {
                 Logger.getLogger(JRDTransformer.class.getName()).log(Level.SEVERE, null, ex);
             }
