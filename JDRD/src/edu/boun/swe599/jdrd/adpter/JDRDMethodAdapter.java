@@ -21,8 +21,8 @@ public class JDRDMethodAdapter extends MethodVisitor {
     private final String methodName;
     private int lastLineNumber;
     private int additionalStackSize = 0;
-    private boolean isStatic;
-    private boolean isSynchronized;
+    private final boolean isStatic;
+    private final boolean isSynchronized;
     private int lastALOADIndex;
     private int lastASTOREIndex;
 
