@@ -3,7 +3,6 @@
  */
 package edu.boun.swe599.jdrd;
 
-import edu.boun.swe599.jdrd.adpter.JDRDAdapter;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.io.DataInputStream;
 import java.io.File;
@@ -14,10 +13,6 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.util.CheckClassAdapter;
 
 /**
  *
