@@ -22,5 +22,4 @@ public class TestThread implements Runnable {
             this.testData.setObject(new Object());
         }
     }
-
 }
