@@ -3,7 +3,6 @@ package edu.boun.swe599.jdrd;
  *  Copyright ©2014 Canay ÖZEL (canay.ozel@gmail.com).
  */
 
-import edu.boun.swe599.jdrd.data.FieldState;
 import edu.boun.swe599.jdrd.data.FieldStateData;
 import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashMap;
