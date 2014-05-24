@@ -26,6 +26,8 @@ import java.util.logging.Logger;
  */
 public abstract class JDRD {
 
+    private static long threadCount = 0;
+    private static long variableCount = 0;
     private static final Map<Object, Map<String, FieldStateData>> DATA_STATES;
     private static final Map<Thread, WeakHashMap<Object, Integer>> THREAD_LOCKS;
 
@@ -55,6 +57,10 @@ public abstract class JDRD {
         Thread currentThread = Thread.currentThread();
         if ((lockSet = THREAD_LOCKS.get(currentThread)) == null) {
             THREAD_LOCKS.put(currentThread, lockSet = new WeakHashMap<>());
+            threadCount++;
+            if (JDRDConfiguration.isDebugEnabled()) {
+                JDRDLogger.log("Thread count: " + threadCount);
+            }
         }
         Integer count = lockSet.get(lock);
         count = count == null ? 1 : count + 1;
@@ -115,6 +121,10 @@ public abstract class JDRD {
         if ((fieldStateData = map.get(field)) == null) {
             fieldStateData = new FieldStateData();
             map.put(field, fieldStateData);
+            variableCount++;
+            if (JDRDConfiguration.isDebugEnabled()) {
+                JDRDLogger.log("Variable count: " + variableCount);
+            }
         }
         return fieldStateData;
     }
@@ -139,10 +149,7 @@ public abstract class JDRD {
 
     private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
         FieldStateData fieldStateData = getFieldStateData(owner, field);
-        fieldStateData.signalAccess(getLocksHeld(), isWrite);
-        return JDRDConfiguration.isFieldStateCheckEnabled() && fieldStateData.getLockSetSize() == 0
-                ? fieldStateData.getState() == FieldState.SHARED_MODIFIED
-                : fieldStateData.getAccessorSetSize() > 1;
+        return fieldStateData.signalAccess(getLocksHeld(), isWrite);
     }
 
 }

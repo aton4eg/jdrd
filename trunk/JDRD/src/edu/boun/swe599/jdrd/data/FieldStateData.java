@@ -38,7 +38,7 @@ public class FieldStateData {
         return state;
     }
 
-    public void signalAccess(WeakHashMap<Object, ?> locks, boolean isWrite) {
+    public boolean signalAccess(WeakHashMap<Object, ?> locks, boolean isWrite) {
         this.accessors.add(JDRDUtil.getCurrentThreadId());
 
         if (this.accessors.size() == 1) {
@@ -59,6 +59,10 @@ public class FieldStateData {
                 this.lockSet.retainAll(locks.keySet());
             }
         }
+
+        return JDRDConfiguration.isFieldStateCheckEnabled() && getLockSetSize() == 0
+                ? getState() == FieldState.SHARED_MODIFIED
+                : getAccessorSetSize() > 1;
     }
 
 }
