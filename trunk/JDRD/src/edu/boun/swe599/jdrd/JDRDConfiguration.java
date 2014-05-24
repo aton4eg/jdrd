@@ -5,6 +5,7 @@ package edu.boun.swe599.jdrd;
 
 import edu.boun.swe599.jdrd.util.StringUtil;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Set;
  * @author Canay ÖZEL (canay.ozel@gmail.com)
  * @version 1.0 created on May 13, 2014 11:07:48 PM
  */
+@SuppressWarnings({"BroadCatchBlock", "TooBroadCatch"})
 public class JDRDConfiguration {
 
     private static final String NAMES_OF_CLASSES_TO_TRANSFORM = "jdrd.classes.transform";
@@ -26,8 +28,9 @@ public class JDRDConfiguration {
 
     static {
         try {
-            JDRD_PROPERTIES.load(ClassLoader.getSystemClassLoader().getResourceAsStream("./jdrd.properties"));
-        } catch (IOException ex) {
+            JDRD_PROPERTIES.load(new FileInputStream(
+                    JDRDConfiguration.class.getProtectionDomain().getCodeSource().getLocation().toString().replaceAll("JDRD.jar", "jdrd.properties").replaceAll("file:/", "")));
+        } catch (Exception ex) {
         }
     }
 
