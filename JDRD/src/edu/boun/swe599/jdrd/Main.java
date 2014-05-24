@@ -52,7 +52,7 @@ public class Main {
             source = new JarFile(args[0]);
         }
 
-        try (JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(source.getName() + "_jdrd"))) {
+        try (JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(source.getName().replaceAll(".jar", "_jdrd.jar")))) {
             Enumeration<? extends JarEntry> entries = source.entries();
             while (entries.hasMoreElements()) {
                 JarEntry e = entries.nextElement();

@@ -45,7 +45,7 @@ final class JRDTransformer implements ClassFileTransformer {
         if (StringUtil.hasText(className)) {
             for (String name : NAMES_OF_CLASSES_TO_BE_TRANSFORMED) {
                 if (className.startsWith(name)) {
-                    return !className.startsWith("edu/boun/swe599/jdrd/") && !className.startsWith("org/objectweb/asm/")&& !className.startsWith("org/apache/juli/");
+                    return !className.startsWith("edu/boun/swe599/jdrd/") && !className.startsWith("org/objectweb/asm/");
                 }
             }
         }
