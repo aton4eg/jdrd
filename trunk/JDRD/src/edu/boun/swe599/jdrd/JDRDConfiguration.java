@@ -29,7 +29,8 @@ public class JDRDConfiguration {
     static {
         try {
             JDRD_PROPERTIES.load(new FileInputStream(
-                    JDRDConfiguration.class.getProtectionDomain().getCodeSource().getLocation().toString().replaceAll("JDRD.jar", "jdrd.properties").replaceAll("file:/", "")));
+                    JDRDConfiguration.class.getProtectionDomain().getCodeSource().getLocation().toString()
+                            .replaceAll("JDRD.jar", "").replaceAll("file:/", "").concat("jdrd.properties")));
         } catch (Exception ex) {
         }
     }

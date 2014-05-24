@@ -22,7 +22,7 @@ public class JDRDLogger {
         PrintStream printStream = JDRDConfiguration.getLogStream();
         if (printStream == null) {
             out = System.out;
-            System.err.println(getHeader() + "Log file cannot be created System.out will be used to log JDRD messages.");
+            System.out.println(getHeader() + "Log file cannot be created System.out will be used to log JDRD messages.");
         } else {
             out = printStream;
         }
