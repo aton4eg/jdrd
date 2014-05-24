@@ -1,5 +1,5 @@
 /*
- *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ *  Copyright ©2014 Canay ÖZEL (canay.ozel@gmail.com).
  */
 package edu.boun.swe599.jdrd;
 
@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @author Canay ÖZEL (canay.ozel@gmail.com)
  * @version 1.0 created on May 13, 2014 11:49:17 PM
  */
 public class JDRDLogger {
