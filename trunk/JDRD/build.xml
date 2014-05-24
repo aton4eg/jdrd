@@ -72,5 +72,6 @@
     -->
     <target name="-post-jar">
         <copy file="jdrd.properties" flatten="true" todir="${dist.dir}" />
+        <copy file="jdrd.properties" flatten="true" todir="${build.classes.dir}" />
     </target> 
 </project>

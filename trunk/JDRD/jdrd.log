@@ -1,0 +1,22 @@
+JDRD: 2014/05/24 20:28:40 - main#1 - Logger has been successfully initialized.
+JDRD: 2014/05/24 20:28:40 - main#1 - JDRD Trasnformer has been successfully attached to the classloader.
+JDRD: 2014/05/24 20:28:40 - main#1 - Field staticPrimitive is being written by main#1 in java.lang.Class@21581759.<clinit> at line 17
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 1
+JDRD: 2014/05/24 20:28:40 - main#1 - Field staticObject is being written by main#1 in java.lang.Class@21581759.<clinit> at line 19
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 2
+JDRD: 2014/05/24 20:28:40 - main#1 - Field staticFinalObject is being written by main#1 in java.lang.Class@21581759.<clinit> at line 20
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 3
+JDRD: 2014/05/24 20:28:40 - main#1 - Field primitive is being written by main#1 in edu.boun.swe599.test.LoadStoreTest@20132171.<init> at line 13
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 4
+JDRD: 2014/05/24 20:28:40 - main#1 - Field finalPrimitive is being written by main#1 in edu.boun.swe599.test.LoadStoreTest@20132171.<init> at line 14
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 5
+JDRD: 2014/05/24 20:28:40 - main#1 - Field object is being written by main#1 in edu.boun.swe599.test.LoadStoreTest@20132171.<init> at line 15
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 6
+JDRD: 2014/05/24 20:28:40 - main#1 - Field finalObject is being written by main#1 in edu.boun.swe599.test.LoadStoreTest@20132171.<init> at line 16
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 7
+JDRD: 2014/05/24 20:28:40 - main#1 - Field testData is being written by main#1 in edu.boun.swe599.test.TestThread@27729555.<init> at line 16
+JDRD: 2014/05/24 20:28:40 - main#1 - Variable count: 8
+JDRD: 2014/05/24 20:28:40 - Thread-0#8 - Field testData is being read by Thread-0#8 in edu.boun.swe599.test.TestThread@27729555.run at line 21
+JDRD: 2014/05/24 20:28:40 - Thread-0#8 - Field testData is being read by Thread-0#8 in edu.boun.swe599.test.TestThread@27729555.run at line 22
+JDRD: 2014/05/24 20:28:40 - Thread-0#8 - Field object is being written by Thread-0#8 in edu.boun.swe599.test.LoadStoreTest@20132171.setObject at line 33
+JDRD: 2014/05/24 20:28:40 - Thread-0#8 - RACE DETECTED in edu.boun.swe599.test.LoadStoreTest.setObject's write operation on field object at line:33
