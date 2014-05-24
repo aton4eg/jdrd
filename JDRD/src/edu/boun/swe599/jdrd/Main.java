@@ -32,7 +32,7 @@ public class Main {
 
                 @Override
                 public boolean accept(File pathname) {
-                    return pathname.getName().endsWith(".jar");
+                    return pathname.isDirectory() || pathname.getName().endsWith(".jar");
                 }
 
                 @Override

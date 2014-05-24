@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Task 1 : instrument all acquire and release operations on locks : DONE<br/>
@@ -25,6 +23,27 @@ import java.util.logging.Logger;
  */
 public abstract class JDRD {
 
+    private static class ClassConstant {
+
+        private static final Map<String, ClassConstant> classes = new HashMap<String, ClassConstant>();
+
+        private final String className;
+
+        private ClassConstant(String className) {
+            this.className = className;
+        }
+
+        public static ClassConstant getInstance(String className) {
+            ClassConstant constant;
+            if ((constant = classes.get(className)) == null) {
+                constant = new ClassConstant(className);
+                classes.put(className, constant);
+            }
+            return constant;
+        }
+
+    }
+
     private static long threadCount = 0;
     private static long variableCount = 0;
     private static final Map<Object, Map<String, FieldStateData>> DATA_STATES;
@@ -36,19 +55,12 @@ public abstract class JDRD {
     }
 
     public static synchronized void lockAcquired(String className) {
-        try {
-            lockAcquired(Class.forName(className));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        lockAcquired(ClassConstant.getInstance(className));
+
     }
 
     public static synchronized void lockReleased(String className) {
-        try {
-            lockReleased(Class.forName(className));
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        lockReleased(ClassConstant.getInstance(className));
     }
 
     public static synchronized void lockAcquired(Object lock) {
@@ -81,19 +93,11 @@ public abstract class JDRD {
     }
 
     public static synchronized void fieldIsBeingRead(String className, String field, String methodName, int line) {
-        try {
-            fieldIsBeingRead(Class.forName(className), field, methodName, line);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        fieldIsBeingRead(ClassConstant.getInstance(className), field, methodName, line);
     }
 
     public static synchronized void fieldIsBeingWritten(String className, String field, String methodName, int line) {
-        try {
-            fieldIsBeingWritten(Class.forName(className), field, methodName, line);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JDRD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        fieldIsBeingWritten(ClassConstant.getInstance(className), field, methodName, line);
     }
 
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
