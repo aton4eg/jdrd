@@ -1,5 +1,5 @@
 /*
- *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ *  Copyright ©2014 Canay ÖZEL (canay.ozel@gmail.com).
  */
 package edu.boun.swe599.jdrd.adpter;
 
@@ -12,7 +12,7 @@ import org.objectweb.asm.Type;
 
 /**
  *
- * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @author Canay ÖZEL (canay.ozel@gmail.com)
  * @version 1.0 created on May 11, 2014 9:04:35 PM
  */
 public class JDRDMethodAdapter extends MethodVisitor {

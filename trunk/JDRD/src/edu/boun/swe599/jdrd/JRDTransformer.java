@@ -1,5 +1,5 @@
 /*
- *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ *  Copyright ©2014 Canay ÖZEL (canay.ozel@gmail.com).
  */
 package edu.boun.swe599.jdrd;
 
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @author Canay ÖZEL (canay.ozel@gmail.com)
  * @version 1.0 created on May 11, 2014 9:04:35 PM
  */
 final class JRDTransformer implements ClassFileTransformer {
@@ -45,7 +45,7 @@ final class JRDTransformer implements ClassFileTransformer {
         if (StringUtil.hasText(className)) {
             for (String name : NAMES_OF_CLASSES_TO_BE_TRANSFORMED) {
                 if (className.startsWith(name)) {
-                    return !className.startsWith("edu/boun/swe599/jdrd/");
+                    return !className.startsWith("edu/boun/swe599/jdrd/") && !className.startsWith("org/objectweb/asm/")&& !className.startsWith("org/apache/juli/");
                 }
             }
         }

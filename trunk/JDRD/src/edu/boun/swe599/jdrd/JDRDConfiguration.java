@@ -1,5 +1,5 @@
 /*
- *  Copyright ©2014 Canay ÖZEL <canay.ozel@gmail.com>.
+ *  Copyright ©2014 Canay ÖZEL (canay.ozel@gmail.com).
  */
 package edu.boun.swe599.jdrd;
 
@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  *
- * @author Canay ÖZEL <canay.ozel@gmail.com>
+ * @author Canay ÖZEL (canay.ozel@gmail.com)
  * @version 1.0 created on May 13, 2014 11:07:48 PM
  */
 public class JDRDConfiguration {
@@ -26,7 +26,7 @@ public class JDRDConfiguration {
 
     static {
         try {
-            JDRD_PROPERTIES.load(ClassLoader.getSystemClassLoader().getResourceAsStream("META-INF/jdrd.properties"));
+            JDRD_PROPERTIES.load(ClassLoader.getSystemClassLoader().getResourceAsStream("./jdrd.properties"));
         } catch (IOException ex) {
         }
     }
