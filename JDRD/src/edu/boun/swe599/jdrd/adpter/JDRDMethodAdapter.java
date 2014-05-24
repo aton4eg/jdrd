@@ -35,7 +35,6 @@ public class JDRDMethodAdapter extends MethodVisitor {
         if (methodVisitor == null) {
             throw new IllegalArgumentException("Parameter methodVisitor cacnot be null!");
         }
-
     }
 
     @Override
