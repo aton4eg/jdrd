@@ -36,7 +36,7 @@ public class JDRDLogger {
     public static void log(String message) {
         out.println(getHeader() + message);
         out.flush();
-        if (JDRDConfiguration.isDebugEnabled() && out != System.out) {
+        if (JDRDConfiguration.isConsloleEnabled() && out != System.out) {
             System.out.println(getHeader() + message);
         }
     }
