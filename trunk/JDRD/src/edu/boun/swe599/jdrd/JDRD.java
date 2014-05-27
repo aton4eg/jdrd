@@ -47,6 +47,7 @@ public abstract class JDRD {
     private static long variableCount = 0;
     private static final Map<Object, Map<String, FieldStateData>> DATA_STATES;
     private static final Map<Thread, WeakHashMap<Object, Integer>> THREAD_LOCKS;
+    private static boolean jdrdCall;
 
     static {
         THREAD_LOCKS = new WeakHashMap<>();
@@ -150,12 +151,17 @@ public abstract class JDRD {
     }
 
     private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
-        FieldStateData fieldStateData = getFieldStateData(owner, field);
-        boolean result = false;
-        if (result = fieldStateData.signalAccess(getLocksHeld(), isWrite) && JDRDConfiguration.isDebugEnabled()) {
-            JDRDLogger.log("Detected race count: " + ++raceCount);
+        if (!jdrdCall) {
+            jdrdCall = true;
+            FieldStateData fieldStateData = getFieldStateData(owner, field);
+            boolean result;
+            if (result = fieldStateData.signalAccess(getLocksHeld(), isWrite) && JDRDConfiguration.isDebugEnabled()) {
+                JDRDLogger.log("Detected race count: " + ++raceCount);
+            }
+            jdrdCall = false;
+            return result;
         }
-        return fieldStateData.signalAccess(getLocksHeld(), isWrite);
+        return false;
     }
 
 }
