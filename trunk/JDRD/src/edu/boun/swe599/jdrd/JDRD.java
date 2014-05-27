@@ -4,6 +4,7 @@ package edu.boun.swe599.jdrd;
  */
 
 import edu.boun.swe599.jdrd.data.FieldStateData;
+import edu.boun.swe599.jdrd.util.JDRDUtil;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -97,18 +98,18 @@ public abstract class JDRD {
     }
 
     public static synchronized void fieldIsBeingRead(Object owner, String field, String methodName, int line) {
-//        if (JDRDConfiguration.isDebugEnabled()) {
-//            JDRDLogger.log("Field " + field + " is being read by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
-//        }
+        if (JDRDConfiguration.isDebugEnabled()) {
+            JDRDLogger.log("Field " + field + " is being read by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
+        }
         if (checkRaceCondition(owner, field, false)) {
             JDRDLogger.log("RACE DETECTED in " + owner.getClass().getName() + "." + methodName + "'s read operation on field " + field + " at line:" + line);
         }
     }
 
     public static synchronized void fieldIsBeingWritten(Object owner, String field, String methodName, int line) {
-//        if (JDRDConfiguration.isDebugEnabled()) {
-//            JDRDLogger.log("Field " + field + " is being written by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
-//        }
+        if (JDRDConfiguration.isDebugEnabled()) {
+            JDRDLogger.log("Field " + field + " is being written by " + Thread.currentThread().getName() + "#" + JDRDUtil.getCurrentThreadId() + " in " + owner.getClass().getName() + "@" + System.identityHashCode(owner) + "." + methodName + " at line " + line);
+        }
         if (checkRaceCondition(owner, field, true)) {
             JDRDLogger.log("RACE DETECTED in " + owner.getClass().getName() + "." + methodName + "'s write operation on field " + field + " at line:" + line);
         }
@@ -153,13 +154,13 @@ public abstract class JDRD {
     private static boolean checkRaceCondition(Object owner, String field, boolean isWrite) {
         if (!jdrdCall) {
             jdrdCall = true;
-            FieldStateData fieldStateData = getFieldStateData(owner, field);
-            boolean result;
-            if (result = fieldStateData.signalAccess(getLocksHeld(), isWrite) && JDRDConfiguration.isDebugEnabled()) {
-                JDRDLogger.log("Detected race count: " + ++raceCount);
-            }
+        FieldStateData fieldStateData = getFieldStateData(owner, field);
+        boolean result;
+        if ((result = fieldStateData.signalAccess(getLocksHeld(), isWrite)) && JDRDConfiguration.isDebugEnabled()) {
+            JDRDLogger.log("Detected race count: " + ++raceCount);
+        }
             jdrdCall = false;
-            return result;
+        return result;
         }
         return false;
     }
