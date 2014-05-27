@@ -51,7 +51,8 @@ public class FieldStateData {
             }
         }
 
-        if (JDRDConfiguration.isFieldStateCheckEnabled() ? JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED) : true) {
+//        if (JDRDConfiguration.isFieldStateCheckEnabled() ? JDRDUtil.in(this.state, FieldState.SHARED, FieldState.SHARED_MODIFIED) : true) {
+        if (JDRDConfiguration.isFieldStateCheckEnabled() ? this.state != FieldState.VIRGIN : true) {
             // initialize lockset refinement
             if (this.lockSet == null) {
                 this.lockSet = new HashMap<>(locks).keySet();
