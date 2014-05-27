@@ -60,9 +60,9 @@ public class FieldStateData {
             }
         }
 
-        return JDRDConfiguration.isFieldStateCheckEnabled() && getLockSetSize() == 0
-                ? getState() == FieldState.SHARED_MODIFIED
-                : getAccessorSetSize() > 1;
+        return JDRDConfiguration.isFieldStateCheckEnabled()
+                ? getLockSetSize() == 0 && getState() == FieldState.SHARED_MODIFIED
+                : getLockSetSize() == 0 && getAccessorSetSize() > 1;
     }
 
 }
